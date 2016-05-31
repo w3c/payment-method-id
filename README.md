@@ -1,5 +1,7 @@
 
-# Specification 'webpayments-method-identifiers'
+# Web Payments - Payment Method Identifers
 
-This is the repository for webpayments-method-identifiers. You're welcome to contribute! Let's make the Web rock our socks
-off!
+This repository contains a draft specification from the [W3C Web Payments Working Group](https://www.w3.org/Payments/WG/).
+
+This is the Payment Method Identifers sepcification
+The editor's draft is available at: http://w3c.github.io/webpayments-method-identifiers/
