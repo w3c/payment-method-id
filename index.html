@@ -8,7 +8,7 @@
     <script class='remove'>
       var respecConfig = {
           shortName:  "payment-method-id",
-          edDraftURI:   "https://w3c.github.io/browser-payment-api/method-identifiers.html",
+          edDraftURI:   "http://w3c.github.io/webpayments-method-identifiers/",
 
           specStatus: "ED",
           editors: [
@@ -33,7 +33,7 @@
           wgPublicList: "public-payments-wg",
           wgPatentURI:  "https://www.w3.org/2004/01/pp-impl/83744/status",
 
-          issueBase:    "https://github.com/w3c/browser-payment-api/issues/",
+          issueBase:    "https://github.com/w3c/webpayments-method-identifiers/issues/",
 
           localBiblio:  {
               "PAYMENT-REQUEST-API": {
@@ -66,7 +66,7 @@
 
     <section id='sotd'>
       <p>
-        The working group maintains <a href="https://github.com/w3c/browser-payment-api/issues">a
+        The working group maintains <a href="https://github.com/w3c/webpayments-method-identifiers/issues">a
         list of all bug reports that the group has not yet addressed</a>.
         This draft highlights some of the pending issues that are still to be discussed in the working
         group. No decision has been taken on the outcome of these issues including whether they are valid.
@@ -130,17 +130,13 @@
 
       <p>The following issues are tracking aspects of the payment method identifier specification:</p>
 
-      <div class="issue" data-number="10" title="Should well-known identifiers be used for ubiquitous payment methods">
-        <p>Should there be well-known identifiers that are simple strings defined in the spec that don't conform to the distributed extensibility syntax that are used for common payment methods?</p>
-      </div>
-
-      <div class="issue" data-number="12" title="Write-up initial proposal for payment app registration spec">
+      <div class="issue" title="Write-up initial proposal for payment app registration spec">
         <p>A registration mechanism may exist to install the code for new payment methods into the user agent. This process
           would add support for a new payment method to the user agent. This mechanism should be defined in a separate specification.</p>
         <p>There is an initial <a href="https://github.com/WICG/paymentrequest/blob/gh-pages/docs/registration.md">outline making a proposal</a>.</p>
       </div>
 
-      <div class="issue" data-number="46" title="Should a payment app identifier (URL) or a payment method identifier (URL) resolve to a machine readable resource that describes it?">
+      <div class="issue" data-number="3" title="Should a payment method identifier (URL) resolve to a machine readable resource that describes it?">
         <p>There is an open issue about whether payment method identifiers should resolve to a resource if they are URLs.</p>
       </div>
     </section>
