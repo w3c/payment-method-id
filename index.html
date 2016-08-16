@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html>
   <head>
     <title>Payment Method Identifiers</title>
@@ -43,6 +42,36 @@
                   ,   "Zach Koch"
                   ,   "Richard Barnes"
                   ,   "Roy McElmurry"
+                  ]
+              ,   status:   "WD"
+              },
+              "BASIC-CARD-PAYMENT": {
+                  title:    "Basic Card Payments"
+              ,   href:     "https://w3c.github.io/webpayments-methods-card/"
+              ,   authors:  [
+                      "Adrian Bateman"
+                  ,   "Zach Koch"
+                  ,   "Richard Barnes"
+                  ,   "Roy McElmurry"
+                  ]
+              },
+              "SEPA-CREDIT-TRANSFER": {
+                  title:    "SEPA Credit Transfer"
+              ,   href:     "http://w3c.github.io/webpayments-methods-credit-transfer-direct-debit/"
+              ,   authors:  [
+                      "Cyril Vignet"
+                  ,   "Matt Saxon"
+                  ]
+              },
+              "PAYMENT-APPS": {
+                  title:    "Payment App API"
+              ,   href:     "https://w3c.github.io/webpayments-payment-apps-api/"
+              ,   authors:  [
+                      "Adrian Hope-Bailie"
+                  ,   "Tommy Thorsen"
+                  ,   "Adam Roach"
+                  ,   "Jason Normore"
+                  ,   "Ian Jacobs"
                   ]
               ,   status:   "WD"
               },
@@ -95,17 +124,36 @@
         <dt>URL</dt>
         <dd>The terms <dfn>URL</dfn>, <dfn>absolute URL</dfn>, <dfn>base URL</dfn>, <dfn>URL parser</dfn>, and <dfn>URL equivalence</dfn> are defined by [[!url-1-20141209]] <small><em>(or the editor's draft)</em></small>.</dd>
       </dl>
+      <div class="issue" title="Do we need a reference to some URN spec?">
+        <p>Do we need a reference to some URN spec?</p>
+      </div>
     </section>
 
     <section>
       <h2>Payment Method Identifier</h2>
       <p>
-        The <dfn>Payment Method Identifier</dfn> is a string that uniquely identifies a payment method that a user can use to complete a transaction. For example, Visa, MasterCard, and American Express are payment methods used in some countries.
+        The <dfn>Payment Method Identifier</dfn> is a string that uniquely identifies a payment method that a user can use to complete a transaction. For example, Visa, MasterCard, and American Express are payment methods used in some countries. These identifiers are split into two categories that take different forms.
       </p>
+
       <section>
-        <h2>Identifier format</h2>
-        <p>Payment method identifiers are strings containing a <a>URL</a>. The string MUST be an <a>absolute URL</a>.</p>
+        <h2>Open Identifier Format</h2>
+        <p>Ubiquitous payment methods such as [[!BASIC-CARD-PAYMENT]] and [[!SEPA-CREDIT-TRANSFER]] are documented by the Web Payments Working Group through corresponding paymenth method specifications that also describe the inputs and outputs of those payment methods. Each open payment method is identified by a URN. This URN is purely an identifier, it does not resolve to anything. Open payment method identifiers should have the format:</p>
+        <pre class="example highlight">
+urn:payment-method:{name}
+        </pre>
+        <p>where <em>name</em> is the payment method's name. Any changes made to these payment methods over time must be approved by consensus of the Web Payments Working Group.</p>
       </section>
+
+      <section>
+        <h2>Proprietary Identifier Format</h2>
+        <p>Many payment methods are naturally proprietary. Only one party is able to process payments with that payment method. These payment methods are not documented by the Web Payments Working group through formally published payment method specifications. It is instead the responsibility of the party supporting that payment method to define its behavior and input and output data.</p>
+        <p>These proprietary payment methods are identified with an absolute URL.</p>
+        <pre class="example highlight">
+https://roypay.foo/pay
+        </pre>
+        <p>By default, [[!PAYMENT-APPS]] other than those associated with the identifying origin cannot claim to offer support for these payment methods. For example, <em>http://bobpay.xyz/pay</em> cannot support the paymeth method identified by <em>https://roypay.foo/pay</em>. Payment mediators must not recognize payment app as supporting a proprietary payment method unless the payment app originates from the same origin as the payment method identifier.</p>
+      </section>
+
       <section>
         <h2>Identifier equivalence</h2>
         <p>When the PaymentRequest API is invoked, the web page provides a list of identifiers for supported payment methods.
@@ -129,14 +177,16 @@
 
       <p>The following issues are tracking aspects of the payment method identifier specification:</p>
 
-      <div class="issue" title="Write-up initial proposal for payment app registration spec">
-        <p>A registration mechanism may exist to install the code for new payment methods into the user agent. This process
-          would add support for a new payment method to the user agent. This mechanism should be defined in a separate specification.</p>
-        <p>There is an initial <a href="https://github.com/WICG/paymentrequest/blob/gh-pages/docs/registration.md">outline making a proposal</a>.</p>
-      </div>
-
-      <div class="issue" data-number="3" title="Should a payment method identifier (URL) resolve to a machine readable resource that describes it?">
-        <p>There is an open issue about whether payment method identifiers should resolve to a resource if they are URLs.</p>
+      <div class="issue" data-number="3" title="Does the absolute URL resolve to any useful data">
+        <p>This proposal does not necessarily assume that anything should exist at the identifying URL, but it is probably <strong>really useful</strong> to do so. The WG should consider standardizing what this optional thing could look like (e.g. a manifest file containing information about the payment method).</p>
+        <p>The benefit of the above approach is that it provides a mechanism for the identifying origin to assert what other origins could potentially also support that payment method.</p>
+        <p>For example, let's say that RoyPay is a proprietary payment method, but RoyPay has struck a deal with AlicePay to also allow AlicePay to return back valid RoyPay payment responses. We could define a mechanism to support this within the manifest file located at roypay.foo/pay:</p>
+        <pre>
+{
+  name: 'http://roypay.foo/pay',
+  supportedOrigins: ['https://alicepay.xyz'],
+}
+        </pre>
       </div>
     </section>
 
