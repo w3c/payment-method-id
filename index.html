@@ -87,7 +87,7 @@
     <section class='informative'>
       <h2>Introduction</h2>
         <p>
-          To use PaymentRequest API, merchants (or their service
+          To use Payment Request API, merchants (or their service
 	  providers) must know how to handle payment method
 	  specific data for those methods they claim to accept.
           This allows the API to abstract away the details of specific
@@ -95,7 +95,7 @@
 	  changing the API specification.
         </p>
         <p>
-          As part of the paymentRequest() call, the Web page provides
+          As part of using Payment Request API, the Web page provides
 	  an array of strings that identify accepted payment methods.
 	  This specification defines those strings.
         </p>
@@ -126,12 +126,12 @@
       <div class="issue" title="URL maintenance and performance">Either in the payment method manifest specification or in separate "good practice" documentation, the Working Group should address issues of server performance for payment method identifiers that are URLs. Furthermore, when parties feel they do not need to publish a manifest, we should explain that a manifest with an explicit machine-readable assertion that "any payment app may implement" is preferable to lack of a manifest.
 	</div>
       <section>
-        <h3>Syntax</h3>
+        <h2>Syntax</h2>
 	<p>When URLs are used for payment method identifiers they MUST
 	  be absolute URLs including only the schema, origin, and path parts. The URL scheme MUST be <code>https</code>. These URLs MUST NOT include query string parameters or fragment identifiers.</p>
       </section>
       <section>
-        <h3>Matching</h3>
+        <h2>Matching</h2>
         <p>User agents MUST use the following algorithm to determine whether two payment method identifiers that are URLs match:</p>
         <ul>
           <li>Let <em>A</em> be the first payment method identifier string and let <em>B</em> be the second payment method
@@ -146,7 +146,7 @@
       </section>
     </section>
 
-        <section>
+    <section>
       <h2>W3C-Defined Strings as Payment Method Identifiers</h2>
       <p>W3C expects to publish a small number of payment method
 	specifications that define abstractions across
@@ -155,15 +155,15 @@
 	payment methods will be implemented in a wide variety of third party
 	payment apps. W3C identifies these payment methods with (short) strings; W3C expects to mint these strings in payment method specifications published by the Web Payments Working Group.</p>
       <section>
-        <h3>Syntax</h3>
+        <h2>Syntax</h2>
 	<p>The syntax of W3C strings used as payment method identifiers is constrained by this regular expression: <code>[a-z0-9-]+</code></p>
       </section>
       <section>
-        <h3>Matching</h3>
+        <h2>Matching</h2>
         <p>For W3C strings, user agents MUST use exact string matching.</p>
       </section>
     </section>
-
+	
     <section>
       <h2>Conditional Matching of Payment Methods</h2>
       <p>For some payment methods, merchants may wish to express
