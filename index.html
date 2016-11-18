@@ -175,16 +175,25 @@
 	conditions (e.g., "I only credit cards from brand A and
 	debit cards from brand B"). The Web Payments Working
 	Group has discussed several ways to support more sophisticated
-	matching after initial payment method identifier matching.</p>
+	matching beyond initial payment method identifier matching.</p>
 
       <ul>
 	<li>Parties may mint payment method identifiers to
 	  represent different conditions. This scalable approach may work
 	  well for a small number of independent conditions, but
 	  may not scale well for complex relationships.</li>
-	<li>Payment methods may define "filters." Merchants provide
-	  filter data as input to the Payment Request API to complement
-	  payment method identifier matching.</li>
+	<li>A payment method can define 
+	  "filters" that enable callers of the API to describe in
+	  finer detail the conditions under which they accept
+	  that payment method. User agents and third party
+	  payment apps can similarly scope their support for
+	  that payment method with these filters. In this
+	  scenario, a match between payee and payer depends
+	  first on matching payment method identifiers, then on
+	  filter alignment. Please note that at this time the
+	  Working Group's expectations is that filters will be
+	  defined within payment methods; there will not be
+	  "generic" filters that work across payment methods.</li>
       </ul>
     </section>
   </body>
