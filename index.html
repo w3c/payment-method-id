@@ -65,7 +65,7 @@
     <section id='abstract'>
       <p>
         The Payment Request API [[!PAYMENT-REQUEST-API]] requires that merchants supply a list
-        of identifiers for supported payment methods. This document defines those identifier
+        of identifiers for supported payment methods. This specification defines those identifier
         strings and how they are created.
       </p>
     </section>
@@ -87,11 +87,17 @@
     <section class='informative'>
       <h2>Introduction</h2>
         <p>
-          One of the principles of the PaymentRequest API is that merchants must know how to accept payments from the payment methods that they claim to support.
-          This allows the API to abstract away the details of specific payment methods and to add new ones over time without changing the API specification.
+          To use Payment Request API, merchants (or their service
+	  providers) must know how to handle payment method
+	  specific data for those methods they claim to accept.
+          This allows the API to abstract away the details of specific
+	  payment methods and to add new ones over time without
+	  changing the API specification.
         </p>
         <p>
-          As part of the paymentRequest() call, the web page provides an array of strings that identify the supported payment methods. This document defines those strings.
+          As part of using Payment Request API, the Web page provides
+	  an array of strings that identify accepted payment methods.
+	  This specification defines those strings.
         </p>
     </section>
 
@@ -105,19 +111,29 @@
     </section>
 
     <section>
-      <h2>Payment Method Identifier</h2>
-      <p>
-        The <dfn>Payment Method Identifier</dfn> is a string that uniquely identifies a payment method that a user can use to complete a transaction. For example, Visa, MasterCard, and American Express are payment methods used in some countries.
-      </p>
+      <h2>URLs as Payment Method Identifiers</h2>
+      <p>When the party
+	responsible for a payment method wishes to publish
+	machine-readable information associated with the payment
+	method, it does so with a URL.
+	This URL approach offers at least two benefits: identifier
+	decentralization and origins as a trust mechanism.
+	In particular, owners of proprietary payment methods
+	can use Web servers under their control to publish
+	security information about authorized payment apps.</p>
+      <div class="issue" title="Payment method manifest specification in progress">The Web Payments Working Group is developing a payment method manifest specification for the information a payment method owner would want to publish. Payment method identifiers that are URLs will help user agents locate these manifest files, although the exact mechanism is not yet defined. See the early <a href="https://github.com/zkoch/zkoch.github.io/blob/master/payment-manifest.md">Payment Manifest Proposal</a>.
+	</div>
+      <div class="issue" title="URL maintenance and performance">Either in the payment method manifest specification or in separate "good practice" documentation, the Working Group should address issues of server performance for payment method identifiers that are URLs. Furthermore, when parties feel they do not need to publish a manifest, we should explain that a manifest with an explicit machine-readable assertion that "any payment app may implement" is preferable to lack of a manifest.
+	</div>
       <section>
-        <h2>Identifier format</h2>
-        <p>Payment method identifiers are strings containing a <a>URL</a>. The string MUST be an <a>absolute URL</a>.</p>
+        <h2>Syntax</h2>
+	<p>When URLs are used for payment method identifiers they MUST
+	  be absolute URLs including only the schema, origin, and path parts. The URL scheme MUST be <code>https</code>. These URLs MUST NOT include query string parameters or fragment identifiers.</p>
+	<div class="issue" title="Support for PMI's with schemes other than https?">The Working Group discussed requiring HTTPS at the <a href="https://www.w3.org/2016/09/20-wpwg-minutes#item04">20 Sep 2016 face-to-face meeting</a>. However, <a href="https://github.com/w3c/webpayments-method-identifiers/issues/17">issue 17</a> asks if that is over-constraining and we should allow for other URL schemes. See also <a href="https://github.com/w3c/webpayments-method-identifiers/issues/18">issue 18</a> which gives an example of another URL scheme ("ni") that people might want to use to establish subresource integrity (on dereferenced manifest files).</div>
       </section>
       <section>
-        <h2>Identifier equivalence</h2>
-        <p>When the PaymentRequest API is invoked, the web page provides a list of identifiers for supported payment methods.
-        The user agent must compare these identifiers to those available to the user and use this to filter what the user
-        can select. To determine whether two identifiers match, perform the following test:</p>
+        <h2>Matching</h2>
+        <p>User agents MUST use the following algorithm to determine whether two payment method identifiers that are URLs match:</p>
         <ul>
           <li>Let <em>A</em> be the first payment method identifier string and let <em>B</em> be the second payment method
           identifier string.</li>
@@ -131,21 +147,54 @@
       </section>
     </section>
 
-    <section class="appendix">
-      <h2>Issues</h2>
-
-      <p>The following issues are tracking aspects of the payment method identifier specification:</p>
-
-      <div class="issue" title="Write-up initial proposal for payment app registration spec">
-        <p>A registration mechanism may exist to install the code for new payment methods into the user agent. This process
-          would add support for a new payment method to the user agent. This mechanism should be defined in a separate specification.</p>
-        <p>There is an initial <a href="https://github.com/WICG/paymentrequest/blob/gh-pages/docs/registration.md">outline making a proposal</a>.</p>
-      </div>
-
-      <div class="issue" data-number="3" title="Should a payment method identifier (URL) resolve to a machine readable resource that describes it?">
-        <p>There is an open issue about whether payment method identifiers should resolve to a resource if they are URLs.</p>
-      </div>
+    <section>
+      <h2>W3C-Defined Strings as Payment Method Identifiers</h2>
+      <p>W3C expects to publish a small number of payment method
+	specifications that define abstractions across
+	similar payment methods (such as credit card payments,
+	tokenized payments, or credit transfers). W3C expects these
+	payment methods will be implemented in a wide variety of third party
+	payment apps. W3C identifies these payment methods with (short) strings; W3C expects to mint these strings in payment method specifications published by the Web Payments Working Group.</p>
+      <section>
+        <h2>Syntax</h2>
+	<p>The syntax of W3C strings used as payment method identifiers is constrained by this regular expression:</p>
+	<pre>
+          [a-z0-9-]+
+	</pre>
+      </section>
+      <section>
+        <h2>Matching</h2>
+        <p>For W3C strings, user agents MUST use exact string matching.</p>
+      </section>
     </section>
+	
+    <section>
+      <h2>Conditional Matching Beyond Payment Method Identifier Matching</h2>
+      <p>For some payment methods, merchants may wish to express
+	that they accept a payment method but only under certain
+	conditions (e.g., "I only credit cards from brand A and
+	debit cards from brand B"). The Web Payments Working
+	Group has discussed several ways to support more sophisticated
+	matching beyond initial payment method identifier matching.</p>
 
+      <ul>
+	<li>Parties may mint payment method identifiers to
+	  represent different conditions. This scalable approach may work
+	  well for a small number of independent conditions, but
+	  may not scale well for complex relationships.</li>
+	<li>A payment method can define 
+	  "filters" that enable callers of the API to describe in
+	  finer detail the conditions under which they accept
+	  that payment method. User agents and third party
+	  payment apps can similarly scope their support for
+	  that payment method with these filters. In this
+	  scenario, a match between payee and payer depends
+	  first on matching payment method identifiers, then on
+	  filter alignment. Please note that at this time the
+	  Working Group's expectations is that filters will be
+	  defined within payment methods; there will not be
+	  "generic" filters that work across payment methods.</li>
+      </ul>
+    </section>
   </body>
 </html>
