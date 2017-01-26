@@ -132,9 +132,7 @@
 	</div>
       <section>
         <h2>Syntax</h2>
-	<p>When URLs are used for payment method identifiers they MUST
-	  be absolute URLs including only the schema, origin, and path parts. The URL scheme MUST be <code>https</code>. These URLs MUST NOT include query string parameters or fragment identifiers.</p>
-	<div class="issue" title="Support for PMI's with schemes other than https?">The Working Group discussed requiring HTTPS at the <a href="https://www.w3.org/2016/09/20-wpwg-minutes#item04">20 Sep 2016 face-to-face meeting</a>. However, <a href="https://github.com/w3c/webpayments-method-identifiers/issues/17">issue 17</a> asks if that is over-constraining and we should allow for other URL schemes. See also <a href="https://github.com/w3c/webpayments-method-identifiers/issues/18">issue 18</a> which gives an example of another URL scheme ("ni") that people might want to use to establish subresource integrity (on dereferenced manifest files).</div>
+	<p>When URIs are used for payment method identifiers they MUST be absolute URIs including only the schema, authority, and path parts. The URI must be usable as a locator, (a URL) such that user agents are able to locate and fetch the payment method manifest identified by the URI. The URI scheme MUST support fecthing the resource in a secure manner (e.g. https). These URLs MUST NOT include query string parameters or fragment identifiers.</p>
       </section>
       <section>
         <h2>Matching</h2>
