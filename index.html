@@ -111,28 +111,29 @@
       <p>This specification relies on several other underlying specifications.</p>
       <dl>
         <dt>URL</dt>
-        <dd>The terms <dfn>URL</dfn>, <dfn>absolute URL</dfn>, <dfn>base URL</dfn>, <dfn>URL parser</dfn>, and <dfn>URL equivalence</dfn> are defined by [[!url-1-20141209]] <small><em>(or the editor's draft)</em></small>.</dd>
+        <dd>The terms <dfn>URL</dfn>, <dfn>absolute URL</dfn>, <dfn>base URL</dfn>, <dfn>URL parser</dfn>, <dfn>URL equivalence</dfn>, <dfn>special scheme</dfn>, <dfn>scheme</dfn>, <dfn>host</dfn>, <dfn>port</dfn>, <dfn>path</dfn>, <dfn>query</dfn>, and <dfn>fragment</dfn> are defined by [[!url-1-20141209]] <small><em>(or the editor's draft)</em></small>.</dd>
       </dl>
+      <dl>
+        <dt>
+          Secure Contexts
+        </dt>
+        <dd>
+          The term <dfn>potentially trustworthy URL</dfn> is defined by the Secure Contexts
+          specification [[SECURE-CONTEXTS]].
+        </dd>
+       </dl>
     </section>
 
     <section>
       <h2>URLs as Payment Method Identifiers</h2>
-      <p>When the party
-	responsible for a payment method wishes to publish
-	machine-readable information associated with the payment
-	method, it does so with a URL.
-	This URL approach offers at least two benefits: identifier
-	decentralization and origins as a trust mechanism.
-	In particular, owners of proprietary payment methods
-	can use Web servers under their control to publish
-	security information about authorized payment apps.</p>
-      <div class="issue" title="Payment method manifest specification in progress">The Web Payments Working Group is developing a payment method manifest specification for the information a payment method owner would want to publish. Payment method identifiers that are URLs will help user agents locate these manifest files, although the exact mechanism is not yet defined. See the early <a href="https://github.com/zkoch/zkoch.github.io/blob/master/payment-manifest.md">Payment Manifest Proposal</a>.
+      <p>When the party responsible for a payment method wishes to publish machine-readable information associated with the payment method, it does so with a URL. This URL approach offers at least two benefits: identifier	decentralization and origins as a trust mechanism.	In particular, owners of proprietary payment methods	can use Web servers under their control to publish	security information about authorized payment apps.</p>
+      <div class="issue" title="Payment method manifest specification in progress">The Web Payments Working Group is developing a payment method manifest specification for the information a payment method owner would want to publish. Payment method identifiers that are URLs will help user agents locate these manifest files using a mechanism defined in that specification. <a href="https://github.com/zkoch/zkoch.github.io/blob/master/payment-manifest.md">Payment Manifest Proposal</a>.
 	</div>
       <div class="issue" title="URL maintenance and performance">Either in the payment method manifest specification or in separate "good practice" documentation, the Working Group should address issues of server performance for payment method identifiers that are URLs. Furthermore, when parties feel they do not need to publish a manifest, we should explain that a manifest with an explicit machine-readable assertion that "any payment app may implement" is preferable to lack of a manifest.
 	</div>
       <section>
         <h2>Syntax</h2>
-	<p>When URIs are used for payment method identifiers they MUST be absolute URIs including only the schema, authority, and path parts. The URI must be usable as a locator, (a URL) such that user agents are able to locate and fetch the payment method manifest identified by the URI. The URI scheme MUST support fecthing the resource in a secure manner (e.g. https). These URLs MUST NOT include query string parameters or fragment identifiers.</p>
+  <p>When URLs are used for payment method identifiers they MUST be absolute URLs including a <a>scheme</a>, <a>host</a>, <a>port</a> and <a>path</a>. The <a>port</a> MAY be excluded if the <a>scheme</a> is a <a>special scheme</a>. The URL must be a <a>potentially trustworthy URL</a> as defined in the [[SECURE-CONTEXTS]] specification. Identifier URLs SHOULD have null <a>query</a> and <a>fragment</a> values as these will be ignored when matching identifiers.</p>
       </section>
       <section>
         <h2>Matching</h2>
@@ -142,8 +143,10 @@
           identifier string.</li>
           <li>Let <em>urlA</em> be the result from the <a>URL parser</a> when parsing <em>A</em> with
           no <a>base URL</a>.</li>
+          <li>Set <em>urlA.query</em> and <em>urlA.fragment</em> to null.</li>
           <li>Let <em>urlB</em> be the result from the <a>URL parser</a> when parsing <em>B</em> with
-          no <a>base URL</a></li>
+          no <a>base URL</a>.</li>
+          <li>Set <em>urlB.query</em> and <em>urlB.fragment</em> to null.</li>
           <li>The identifiers match if <em>urlA</em> <strong>equals</strong> <em>urlB</em> using the
           <a>URL equivalence</a> test (i.e. the test returns true).</li>
         </ul>
