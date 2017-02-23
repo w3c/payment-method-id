@@ -133,7 +133,7 @@
 	</div>
       <section>
         <h2>Syntax</h2>
-  <p>When URLs are used for payment method identifiers they MUST be absolute URLs including, at most, a <a>scheme</a>, <a>host</a>, <a>port</a> and <a>path</a>. The URL must be a <a>potentially trustworthy URL</a> as defined in the [[SECURE-CONTEXTS]] specification. Identifier URLs SHOULD have null <a>query</a> and <a>fragment</a> values as these will be ignored when matching identifiers.</p>
+  <p>When URLs are used for payment method identifiers they MUST be absolute URLs including, at most, a <a>scheme</a>, <a>host</a>, <a>port</a> and <a>path</a>. The URL must be a <a>potentially trustworthy URL</a> as defined in the [[SECURE-CONTEXTS]] specification. Identifier URLs MUST have null <a>query</a> and <a>fragment</a> values as these will be ignored when matching identifiers.</p>
       </section>
       <section>
         <h2>Matching</h2>
@@ -143,10 +143,10 @@
           identifier string.</li>
           <li>Let <em>urlA</em> be the result from the <a>URL parser</a> when parsing <em>A</em> with
           no <a>base URL</a>.</li>
-          <li>Set <em>urlA.query</em> and <em>urlA.fragment</em> to null.</li>
+          <li>If either <em>urlA.query</em> or <em>urlA.fragment</em> are not <em>null</em> terminate the algorithm with a result of <em>no match</em> and discard <em>A</em> from further matching.</li>
           <li>Let <em>urlB</em> be the result from the <a>URL parser</a> when parsing <em>B</em> with
           no <a>base URL</a>.</li>
-          <li>Set <em>urlB.query</em> and <em>urlB.fragment</em> to null.</li>
+          <li>If either <em>urlB.query</em> or <em>urlB.fragment</em> are not <em>null</em> terminate the algorithm with a result of <em>no match</em> and discard <em>B</em> from further matching.</li>
           <li>The identifiers match if <em>urlA</em> <strong>equals</strong> <em>urlB</em> using the
           <a>URL equivalence</a> test (i.e. the test returns true).</li>
         </ul>
