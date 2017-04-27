@@ -129,6 +129,16 @@
     </section>
     <section>
       <h2>
+        Payment method identifiers
+      </h2>
+      <p>
+        A <dfn>payment method identifier</dfn> is either a <a>standardized
+        payment method identifier</a> or a <a>URL</a> that is valid as per the
+        <a>validate a URL-based payment method identifier</a> algorithm.
+      </p>
+    </section>
+    <section>
+      <h2>
         URLs as Payment Method Identifiers
       </h2>
       <p>
@@ -167,10 +177,9 @@
         </h2>
         <p>
           The steps to <dfn data-lt="validate|valid">validate a URL-based
-          payment-method identifier</dfn> are given by the following algorithm.
+          payment method identifier</dfn> are given by the following algorithm.
           The algorithm takes a <var>potential URL</var> <a>DOMString</a> as
-          input and return either true or an error <a>validate a URL-based
-          payment-method identifier</a>:
+          input and return either true or an error:
         </p>
         <ol class="algorithm">
           <li>Let <var>url</var> be the result of trying to <a data-lt=
