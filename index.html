@@ -118,20 +118,19 @@
           The [[!URL]] standard defines the concepts of <dfn data-cite=
           "URL#concept-url" data-lt="URLs">URL</dfn>, <dfn data-cite=
           "!URL#concept-base-url">base URL</dfn>, <dfn data-cite=
-          "!URL#concept-url-parser" data-lt="parse">URL parser</dfn>,
-          <dfn data-cite="!URL#concept-url-equals" data-lt="equals">URL
-          equivalence</dfn>, <dfn data-cite="!URL#concept-scheme">scheme</dfn>,
-          <dfn data-cite="!URL#concept-url-query">query</dfn>, and
-          <dfn data-cite="!URL#concept-url-fragment">fragment</dfn>,
-          <dfn data-cite="!URL#concept-url-serializer">Serialize</dfn>.
+          "!URL#concept-url-parser" data-lt="URL parse">URL parser</dfn>,
+          <dfn data-cite="!URL#concept-url-equals">equals</dfn>,
+          <dfn data-cite="!URL#concept-scheme">scheme</dfn>, <dfn data-cite=
+          "!URL#concept-url-query">query</dfn>, and <dfn data-cite=
+          "!URL#concept-url-fragment">fragment</dfn>, <dfn data-cite=
+          "!URL#concept-url-serializer">URL serializer</dfn>.
         </dd>
         <dt>
           <cite>Web IDL</cite>
         </dt>
         <dd>
           The [[!WebIDL]] specification defines how to <dfn data-cite=
-          "!WEBIDL-LS#dfn-throw">throw</dfn> an exception. It also defines
-          <code><dfn data-lt="!WEBIDL-LS#idl-DOMString">DOMString</dfn></code>.
+          "!WEBIDL-LS#dfn-throw">throw</dfn> an exception.
         </dd>
       </dl>
     </section>
@@ -186,12 +185,12 @@
         <p>
           The steps to <dfn data-lt="validate|valid">validate a URL-based
           payment method identifier</dfn> are given by the following algorithm.
-          The algorithm takes a <var>potential URL</var> <a>DOMString</a> as
-          input and returns either true or an error:
+          The algorithm takes a <var>input</var> string as input and returns
+          either true or an error:
         </p>
         <ol class="algorithm">
-          <li>Let <var>url</var> be the result of trying to <a data-lt=
-          "URL Parser">parse</a> <var>potential URL</var>.
+          <li>Let <var>url</var> be the result of running the <a>URL parser</a>
+          on <var>input</var>.
           </li>
           <li>If failure, <a>throw</a> a <code>TypeError</code> exception.
           </li>
@@ -214,21 +213,22 @@
         <p>
           The steps to <dfn>determine whether two payment method identifiers
           match</dfn> is given by the following algorithm. The algorithm takes
-          two string <var>A</var> and <var>B</var>.
+          two string <var>inputA</var> and <var>inputB</var>.
         </p>
         <ol class="algorithm">
-          <li>Try to <a>parse</a> <var>A</var> and let <var>urlA</var> be the
-          result.
+          <li>Let <var>urlA</var> be the result of running the <a>URL
+          parser</a> on <var>inputA</var>.
           </li>
-          <li>Try to <a>parse</a> <var>B</var> and let <var>urlB</var> be the
-          result.
+          <li>Let <var>urlB</var> be the result of running the <a>URL
+          parser</a> on <var>inputB</var>.
           </li>
-          <li>If either <var>urlA</var> or <var>urlB</var> is failure, return
-          false.
+          <li>If either is failure, return false.
           </li>
-          <li>
-            <a>Serialize</a> <var>urlA</var> and <var>urlB</var> and attempt to
-            <a>validate</a> each. If either throws, return false.
+          <li>Run the <a>URL Serializer</a> with <var>urlA</var> as input and
+          <a>validate</a> the output. If validation throws, return false.
+          </li>
+          <li>Run the <a>URL Serializer</a> with <var>urlB</var> as input and
+          <a>validate</a> the output. If validation throws, return false.
           </li>
           <li>Return <var>urlA</var> <a>equals</a> <var>urlB</var>.
           </li>
