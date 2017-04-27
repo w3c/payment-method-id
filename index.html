@@ -103,6 +103,15 @@
       </p>
       <dl>
         <dt>
+          Secure Contexts
+        </dt>
+        <dd>
+          The [[!SECURE-CONTEXTS]] defines the algorithm to check if a URL is a
+          <dfn data-cite=
+          "!SECURE-CONTEXTS#potentially-trustworthy-url">potentially
+          trustworthy URL</dfn>.
+        </dd>
+        <dt>
           <cite>URL Standard</cite>
         </dt>
         <dd>
@@ -115,8 +124,6 @@
           <dfn data-cite="!URL#concept-url-query">query</dfn>, and
           <dfn data-cite="!URL#concept-url-fragment">fragment</dfn>.
         </dd>
-      </dl>
-      <dl>
         <dt>
           <cite>Web IDL</cite>
         </dt>
@@ -186,8 +193,9 @@
           "URL Parser">parse</a> <var>potential URL</var>. If failure,
           <a>throw</a> a <code>TypeError</code> exception.
           </li>
-          <li>If <a>scheme</a> is not "https", <a>throw</a> a
-          <code>TypeError</code> exception.
+          <li>If running <a>potentially trustworthy URL</a> with <var>url</var>
+          returns <code>"Not Trustworthy"</code>, <a>throw</a> a
+          <code>SecurityError</code> exception.
           </li>
           <li>If <a>query</a> is not null or <a>fragment</a> is not null,
           <a>throw</a> <code>TypeError</code> exception.
