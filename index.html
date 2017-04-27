@@ -8,73 +8,56 @@
     <script src='https://www.w3.org/Tools/respec/respec-w3c-common' async
     class='remove'></script>
     <script class='remove'>
-      var respecConfig = {
-          shortName:  "payment-method-id",
-          edDraftURI:   "http://w3c.github.io/webpayments-method-identifiers/",
-
-          specStatus: "ED",
-          editors: [{
-            name: "Adrian Bateman",
-            company: "Microsoft Corporation",
-            w3cid: 42763,
-          }, {
-            name: "Zach Koch",
-            company: "Google",
-            w3cid: 76588,
-          }, {
-            name: "Roy McElmurry",
-            company: "Facebook",
-            w3cid: 88345,
-          }, ],
-
-          license:      "w3c-software-doc",
-
-          previousMaturity: "FPWD",
-          previousPublishDate:  "2016-04-21",
-
-          wg:           "Web Payments Working Group",
-          wgURI:        "https://www.w3.org/Payments/WG/",
-          wgPublicList: "public-payments-wg",
-          wgPatentURI:  "https://www.w3.org/2004/01/pp-impl/83744/status",
-
-          issueBase:    "https://github.com/w3c/webpayments-method-identifiers/issues/",
-
-          localBiblio:  {
-              "PAYMENT-REQUEST-API": {
-                  title:    "Payment Request API"
-              ,   href:     "https://www.w3.org/TR/payment-request/"
-              ,   authors:  [
-                      "Adrian Bateman"
-                  ,   "Zach Koch"
-                  ,   "Roy McElmurry"
-                  ]
-              ,   status:   "WD"
-              },
-              "REVERSE-DOMAINS": {
-                  title:    "Reverse Domain Name Notation"
-              ,   href:     "https://en.wikipedia.org/wiki/Reverse_domain_name_notation"
-              }
-          },
-          otherLinks: [{
-            key: "Version control",
-            data: [{
-              value: "Github Repository",
-              href: "https://github.com/w3c/webpayments-method-identifiers"
-            }, {
-              value: "Issues",
-              href: "https://github.com/w3c/webpayments-method-identifiers/issues"
-            }]
-          }]
-      };
+    var respecConfig = {
+      shortName: "payment-method-id",
+      edDraftURI: "http://w3c.github.io/webpayments-method-identifiers/",
+      specStatus: "ED",
+      editors: [{
+        name: "Adrian Bateman",
+        company: "Microsoft Corporation",
+        w3cid: 42763,
+      }, {
+        name: "Zach Koch",
+        company: "Google",
+        w3cid: 76588,
+      }, {
+        name: "Roy McElmurry",
+        company: "Facebook",
+        w3cid: 88345,
+      }, {
+        name: "Marcos Cáceres",
+        company: "Mozilla",
+        w3cid: 39125,
+      }],
+      license: "w3c-software-doc",
+      previousMaturity: "FPWD",
+      previousPublishDate: "2016-04-21",
+      wg: "Web Payments Working Group",
+      wgURI: "https://www.w3.org/Payments/WG/",
+      wgPublicList: "public-payments-wg",
+      wgPatentURI: "https://www.w3.org/2004/01/pp-impl/83744/status",
+      issueBase: "https://github.com/w3c/webpayments-method-identifiers/issues/",
+      otherLinks: [{
+        key: "Version control",
+        data: [{
+          value: "Github Repository",
+          href: "https://github.com/w3c/webpayments-method-identifiers"
+        }, {
+          value: "Issues",
+          href: "https://github.com/w3c/webpayments-method-identifiers/issues"
+        }]
+      }]
+    };
     </script>
   </head>
   <body>
     <section id='abstract'>
       <p>
-        The Payment Request API [[!PAYMENT-REQUEST-API]] requires that
-        merchants supply a list of identifiers for supported payment methods.
-        This specification defines those identifier strings and how they are
-        created.
+        The <a data-cite="payment-request">Payment Request API</a> requires
+        that merchants supply a list of identifiers for supported payment
+        methods. This specification defines those identifier strings and how
+        they are created, validated, matched, compared, and, where applicable,
+        formally registered with the <a href="https://w3.org">W3C</a>.
       </p>
     </section>
     <section id='sotd'>
@@ -98,16 +81,17 @@
         Introduction
       </h2>
       <p>
-        To use Payment Request API, merchants (or their service providers) must
-        know how to handle payment method specific data for those methods they
-        claim to accept. This allows the API to abstract away the details of
-        specific payment methods and to add new ones over time without changing
-        the API specification.
+        To use the <a data-cite="payment-request">Payment Request API</a>,
+        merchants (or their service providers) need know how to handle payment
+        method specific data for those methods they claim to accept. This
+        allows the API to abstract away the details of specific payment methods
+        and to add new ones over time without changing the <abbr title=
+        "application programming interface">API</abbr>.
       </p>
       <p>
-        As part of using Payment Request API, the Web page provides an array of
-        strings that identify accepted payment methods. This specification
-        defines those strings.
+        As part of using the <a data-cite="payment-request">Payment Request
+        API</a>, the Web page provides an array of strings that identify
+        accepted payment methods. This specification defines those strings.
       </p>
     </section>
     <section>
@@ -119,24 +103,27 @@
       </p>
       <dl>
         <dt>
-          URL
+          <cite>URL Standard</cite>
         </dt>
         <dd>
-          The terms <dfn>URL</dfn>, <dfn>absolute URL</dfn>, <dfn>base
-          URL</dfn>, <dfn>URL parser</dfn>, <dfn>URL equivalence</dfn>,
-          <dfn>special scheme</dfn>, <dfn>scheme</dfn>, <dfn>host</dfn>,
-          <dfn>port</dfn>, <dfn>path</dfn>, <dfn>query</dfn>, and
-          <dfn>fragment</dfn> are defined by [[!url-1-20141209]] <small><em>(or
-          the editor's draft)</em></small>.
+          The [[!URL]] standard defines the concepts of <dfn data-cite=
+          "URL#concept-url">URL</dfn>, <dfn data-cite=
+          "!URL#concept-base-url">base URL</dfn>, <dfn data-cite=
+          "!URL#concept-url-parser" data-lt="parse">URL parser</dfn>,
+          <dfn data-cite="!URL#concept-url-equals" data-lt="equals">URL
+          equivalence</dfn>, <dfn data-cite="!URL#concept-scheme">scheme</dfn>,
+          <dfn data-cite="!URL#concept-url-query">query</dfn>, and
+          <dfn data-cite="!URL#concept-url-fragment">fragment</dfn>.
         </dd>
       </dl>
       <dl>
         <dt>
-          Secure Contexts
+          <cite>Web IDL</cite>
         </dt>
         <dd>
-          The term <dfn>potentially trustworthy URL</dfn> is defined by the
-          Secure Contexts specification [[SECURE-CONTEXTS]].
+          The [[!WebIDL]] specification defines how to <dfn data-cite=
+          "!WEBIDL-LS#dfn-throw">throw</dfn> an exception. It also defines
+          <code><dfn data-lt="!WEBIDL-LS#idl-DOMString">DOMString</dfn></code>.
         </dd>
       </dl>
     </section>
@@ -145,22 +132,24 @@
         URLs as Payment Method Identifiers
       </h2>
       <p>
-        When the party responsible for a payment method wishes to publish
-        machine-readable information associated with the payment method, it
-        does so with a URL. This URL approach offers at least two benefits:
-        identifier decentralization and origins as a trust mechanism. In
-        particular, owners of proprietary payment methods can use Web servers
-        under their control to publish security information about authorized
-        payment apps.
+        Anyone can use a <a>URL</a> as a payment method identifier, as long as
+        it is <a>valid</a> as per the algorithm defined by this specification.
+        This has the following advantages:
       </p>
+      <ol>
+        <li>Identifier decentralization.
+        </li>
+        <li>Origins as a trust mechanism.
+        </li>
+      </ol>
       <div class="issue" title=
       "Payment method manifest specification in progress">
-        The Web Payments Working Group is developing a payment method manifest
-        specification for the information a payment method owner would want to
-        publish. Payment method identifiers that are URLs will help user agents
-        locate these manifest files using a mechanism defined in that
-        specification. <a href=
-        "https://github.com/zkoch/zkoch.github.io/blob/master/payment-manifest.md">
+        The <a href="https://www.w3.org/Payments/WG/">Web Payments Working
+        Group</a> is developing a payment method manifest specification for the
+        information a payment method owner would want to publish. Payment
+        method identifiers that are URLs will help user agents locate these
+        manifest files using a mechanism defined in that specification.
+        <a href="https://github.com/zkoch/zkoch.github.io/blob/master/payment-manifest.md">
         Payment Manifest Proposal</a>.
       </div>
       <div class="issue" title="URL maintenance and performance">
@@ -174,70 +163,80 @@
       </div>
       <section>
         <h2>
-          Syntax
+          Validation
         </h2>
         <p>
-          When URLs are used for payment method identifiers they MUST be
-          absolute URLs including, at most, a <a>scheme</a>, <a>host</a>,
-          <a>port</a> and <a>path</a>. The URL must be a <a>potentially
-          trustworthy URL</a> as defined in the [[SECURE-CONTEXTS]]
-          specification. Identifier URLs MUST have null <a>query</a> and
-          <a>fragment</a> values.
+          The steps to <dfn data-lt="validate|valid">validate a URL-based
+          payment-method identifier</dfn> are given by the following algorithm.
+          The algorithm takes a <var>potential URL</var> <a>DOMString</a> as
+          input and return either true or an error <a>validate a URL-based
+          payment-method identifier</a>:
         </p>
+        <ol class="algorithm">
+          <li>Let <var>url</var> be the result of trying to <a data-lt=
+          "URL Parser">parse</a> <var>potential URL</var>. If failure,
+          <a>throw</a> a <code>TypeError</code> exception.
+          </li>
+          <li>If <a>scheme</a> is not "https", <a>throw</a> a
+          <code>TypeError</code> exception.
+          </li>
+          <li>If <a>query</a> is not null or <a>fragment</a> is not null,
+          <a>throw</a> <code>TypeError</code> exception.
+          </li>
+          <li>Return true.
+          </li>
+        </ol>
       </section>
       <section>
         <h2>
           Matching
         </h2>
         <p>
-          User agents MUST use the following algorithm to determine whether two
-          payment method identifiers that are URLs match:
+          The steps to <dfn>determine whether two payment method identifiers
+          match</dfn> is given by the following algorithm. The algorithm takes
+          two string <var>A</var> and <var>B</var>.
         </p>
-        <ul>
-          <li>Let <em>A</em> be the first payment method identifier string and
-          let <em>B</em> be the second payment method identifier string.
+        <ol class="algorithm">
+          <li>Try to <a>parse</a> <var>A</var> and let <var>urlA</var> be the
+          result.
           </li>
-          <li>Let <em>urlA</em> be the result from the <a>URL parser</a> when
-          parsing <em>A</em> with no <a>base URL</a>.
+          <li>Try to <a>parse</a> <var>B</var> and let <var>urlB</var> be the
+          result.
           </li>
-          <li>If either <em>urlA.query</em> or <em>urlA.fragment</em> are not
-          <em>null</em> terminate the algorithm with a result of <em>no
-          match</em> and discard <em>A</em> from further matching.
+          <li>If either <var>urlA</var> or <var>urlB</var> is failure, return
+          false.
           </li>
-          <li>Let <em>urlB</em> be the result from the <a>URL parser</a> when
-          parsing <em>B</em> with no <a>base URL</a>.
+          <li>Try to <a>validate</a> <var>urlA</var> and <var>urlB</var>. If
+          either throws, return false.
           </li>
-          <li>If either <em>urlB.query</em> or <em>urlB.fragment</em> are not
-          <em>null</em> terminate the algorithm with a result of <em>no
-          match</em> and discard <em>B</em> from further matching.
+          <li>Return <var>urlA</var> <a>equals</a> <var>urlB</var>.
           </li>
-          <li>The identifiers match if <em>urlA</em> <strong>equals</strong>
-          <em>urlB</em> using the <a>URL equivalence</a> test (i.e. the test
-          returns true).
-          </li>
-        </ul>
+        </ol>
       </section>
     </section>
     <section>
       <h2>
-        W3C-Defined Strings as Payment Method Identifiers
+        Standardized Payment Method Identifiers
       </h2>
       <p>
-        W3C expects to publish a small number of payment method specifications
-        that define abstractions across similar payment methods (such as credit
-        card payments, tokenized payments, or credit transfers). W3C expects
-        these payment methods will be implemented in a wide variety of third
-        party payment apps. W3C identifies these payment methods with (short)
-        strings; W3C expects to mint these strings in payment method
-        specifications published by the Web Payments Working Group.
+        The <a href="https://w3.org">W3C</a> expects to publish a small number
+        of payment method specifications that define abstractions across
+        similar payment methods (such as credit card payments, tokenized
+        payments, or credit transfers). The <a href="https://w3.org">W3C</a>
+        expects these payment methods will be implemented in a wide variety of
+        third party payment handlers. The W3C identifies these payment methods
+        with (short) strings (individual referred to as a <dfn>standardized
+        payment method identifier</dfn>); the W3C expects to mint these strings
+        in payment method specifications published by the <a href=
+        "https://www.w3.org/Payments/WG/">Web Payments Working Group</a>.
       </p>
       <section>
         <h2>
           Syntax
         </h2>
         <p>
-          The syntax of W3C strings used as payment method identifiers is
-          constrained by this regular expression:
+          The syntax of <a>standardized payment method identifier</a> used as
+          payment method identifiers is constrained by this regular expression:
         </p>
         <pre>
           [a-z0-9-]+
@@ -245,10 +244,13 @@
       </section>
       <section>
         <h2>
-          Matching
+          Comparison
         </h2>
         <p>
-          For W3C strings, user agents MUST use exact string matching.
+          For <a>standardized payment method identifier</a>, user agents MUST
+          compare strings in a <a data-cite=
+          "HTML#case-sensitive">case-sensitive</a> manner (code point for code
+          point).
         </p>
       </section>
     </section>
@@ -259,10 +261,10 @@
       <p>
         For some payment methods, merchants may wish to express that they
         accept a payment method but only under certain conditions (e.g., "I
-        only credit cards from brand A and debit cards from brand B"). The Web
-        Payments Working Group has discussed several ways to support more
-        sophisticated matching beyond initial payment method identifier
-        matching.
+        only accept credit cards from brand A and debit cards from brand B").
+        The <a href="https://www.w3.org/Payments/WG/">Web Payments Working
+        Group</a> has discussed several ways to support more sophisticated
+        matching beyond initial payment method identifier matching.
       </p>
       <ul>
         <li>Parties may mint payment method identifiers to represent different
@@ -272,7 +274,7 @@
         </li>
         <li>A payment method can define "filters" that enable callers of the
         API to describe in finer detail the conditions under which they accept
-        that payment method. User agents and third party payment apps can
+        that payment method. User agents and third party payment handlers can
         similarly scope their support for that payment method with these
         filters. In this scenario, a match between payee and payer depends
         first on matching payment method identifiers, then on filter alignment.
