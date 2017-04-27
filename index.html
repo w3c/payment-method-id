@@ -122,7 +122,8 @@
           <dfn data-cite="!URL#concept-url-equals" data-lt="equals">URL
           equivalence</dfn>, <dfn data-cite="!URL#concept-scheme">scheme</dfn>,
           <dfn data-cite="!URL#concept-url-query">query</dfn>, and
-          <dfn data-cite="!URL#concept-url-fragment">fragment</dfn>.
+          <dfn data-cite="!URL#concept-url-fragment">fragment</dfn>,
+          <dfn data-cite="!URL#concept-url-serializer">Serialize</dfn>.
         </dd>
         <dt>
           <cite>Web IDL</cite>
@@ -190,15 +191,17 @@
         </p>
         <ol class="algorithm">
           <li>Let <var>url</var> be the result of trying to <a data-lt=
-          "URL Parser">parse</a> <var>potential URL</var>. If failure,
-          <a>throw</a> a <code>TypeError</code> exception.
+          "URL Parser">parse</a> <var>potential URL</var>.
+          </li>
+          <li>If failure, <a>throw</a> a <code>TypeError</code> exception.
           </li>
           <li>If running <a>potentially trustworthy URL</a> with <var>url</var>
           returns <code>"Not Trustworthy"</code>, <a>throw</a> a
           <code>SecurityError</code> exception.
           </li>
-          <li>If <a>query</a> is not null or <a>fragment</a> is not null,
-          <a>throw</a> <code>TypeError</code> exception.
+          <li>If <var>url</var>'s <a>query</a> is not null or <var>url</var>'s
+          <a>fragment</a> is not null, <a>throw</a> <code>TypeError</code>
+          exception.
           </li>
           <li>Return true.
           </li>
@@ -223,8 +226,9 @@
           <li>If either <var>urlA</var> or <var>urlB</var> is failure, return
           false.
           </li>
-          <li>Try to <a>validate</a> <var>urlA</var> and <var>urlB</var>. If
-          either throws, return false.
+          <li>
+            <a>Serialize</a> <var>urlA</var> and <var>urlB</var> and attempt to
+            <a>validate</a> each. If either throws, return false.
           </li>
           <li>Return <var>urlA</var> <a>equals</a> <var>urlB</var>.
           </li>
@@ -276,9 +280,13 @@
         Security consideration
       </h2>
       <p>
-        As this specification is reliant on <a>URLs</a>, implementers need to
-        be aware of the <a data-cite="!URL#security-considerations">security
-        considerations</a> from the [[!URL]] specification.
+        The URLs relied upon by this specification are only expected to be used
+        by APIs, or internally by the user agent. As such, there is no
+        expectation that URLs defined in this specification would ever be
+        rendered or passed around by end-users. However, in the off-chance that
+        they are, implementers need to be aware of the <a data-cite=
+        "!URL#security-considerations">security considerations</a> from the
+        [[!URL]] specification.
       </p>
     </section>
     <section>
