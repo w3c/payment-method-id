@@ -205,34 +205,6 @@
           </li>
         </ol>
       </section>
-      <section>
-        <h2>
-          Matching
-        </h2>
-        <p>
-          The steps to <dfn>determine whether two payment method identifiers
-          match</dfn> is given by the following algorithm. The algorithm takes
-          two string <var>inputA</var> and <var>inputB</var>.
-        </p>
-        <ol class="algorithm">
-          <li>Let <var>urlA</var> be the result of running the <a>URL
-          parser</a> on <var>inputA</var>.
-          </li>
-          <li>Let <var>urlB</var> be the result of running the <a>URL
-          parser</a> on <var>inputB</var>.
-          </li>
-          <li>If either is failure, return false.
-          </li>
-          <li>Run the <a>URL Serializer</a> with <var>urlA</var> as input and
-          <a>validate</a> the output. If validation throws, return false.
-          </li>
-          <li>Run the <a>URL Serializer</a> with <var>urlB</var> as input and
-          <a>validate</a> the output. If validation throws, return false.
-          </li>
-          <li>Return <var>urlA</var> <a>equals</a> <var>urlB</var>.
-          </li>
-        </ol>
-      </section>
     </section>
     <section>
       <h2>
