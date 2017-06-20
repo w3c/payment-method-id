@@ -144,7 +144,7 @@
       </p>
       <p>
         User agents MAY support zero or more <a>standardized payment method
-        identifiers</a> from the <a href="#registry">registry of standardized payment method</a>.
+        identifiers</a> listed in section <a href="#registry"></a>.
       </p>
       <section>
         <h2>
@@ -174,34 +174,25 @@
     </section>
     <section class="informative">
       <h3 id="registry">
-        Registry of standardized payment method
+        Registry of standardized payment methods
       </h3>
       <p>
         A <dfn>standardized payment method</dfn> is a payment method that has
-        undergone standardization at the w3c, and is listed in this registry.
+        undergone standardization at the W3C, and is listed in this registry.
       </p>
       <p>
-        The <a href="https://w3.org">W3C</a> expects to publish a small number
-        of payment method specifications that define abstractions across
-        similar payment methods (such as credit card payments, tokenized
-        payments, or credit transfers). The W3C expects these payment methods
-        will be implemented in a wide variety of third party payment handlers.
-        The W3C identifies these payment methods with (short) strings
-        (individually referred to as a <dfn data-lt=
-        "standardized payment method identifiers">standardized payment method
-        identifier</dfn>); the W3C expects to mint these strings in payment
-        method specifications published by the Working Group.
-      </p>
-      <p>
-        The Working Group has published the following <a>standardized payment
+        The Working Group has minted the following <a>standardized payment
         method identifiers</a>:
       </p>
-      <ul>
-        <li>
-          <a data-cite="payment-method-basic-card">Basic Card Payment</a> with
-          payment method identifier "<code>basic-card</code>".
-        </li>
-      </ul>
+      <dl>
+        <dt>
+          "<code>basic-card</code>"
+        </dt>
+        <dd>
+          The <cite><a data-cite="payment-method-basic-card">Basic Card
+          Payment</a></cite> specification.
+        </dd>
+      </dl>
     </section>
     <section>
       <h2>
