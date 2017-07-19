@@ -4,7 +4,7 @@ branches:
     - gh-pages
 env:
   global:
-    - URL="https://w3c.github.io/webpayments-method-identifiers/echidna-manifest.txt"
+    - URL="https://w3c.github.io/payment-method-id/echidna-manifest.txt"
     - DECISION="https://www.w3.org/2016/04/14-wpwg-minutes#item02"
     - secure: vZZyetD3Fle7ZR4gn14GWnhbH708Jqa3uuDnMvS2XsBd8IMXIFgLkcAJ8qLdnyeax1FlZJs/VyciNto+VgFW6Q0fLG+uGbFp17XS0Tzny7jk5eov0O4aWFEEepHSc72cTkk11YL0wod9MNXroTW6QDPkzsFOa1Q46k2KXfjDiYJrjJQMyvw27RWaPp+K/yFUQ+jFTKtuaOhMZ94FmA8DzLJX7W/e2lOk1OoShkyz+zDNfXNvufdK6jUP8KsAlgGU36Wy46z78Bn+EUBln6GrQXhljeGIJoPeSlj2coL/3lLh5XePcKy/Z9Up47qprrNznsRR0OhIemYYIv/6pvEFYnrlIsrpOUHTXYQESnv/+HxhyF9GcVVjCMJ0xz47fR1HEiujcxLx2IAwyZy1xZcCNlCCGGrjYzTqfEWXq0MwqNf2QlQ+w50TWuoaUpRuxZorB3l4L+sCq8wKWQTbb85XmGHFzS1G4wZST4TPfnNrHmjMglYWoxn4ZpzcRf3W2l107JTMJw2LWer9Ld3NN9doOYebx7rlordKXbDClaK2vjQg9go7p9ZW9AiqKJEbPP9LEWo0Px6kqZWNaLF5L320uz7jhJVlg586s9gmcwXRyZjUIjnhIwGg4eAe2BjQUI4WdQqKkDLvCMpscHEVY8Ao+bNCOnN8ERwpMgUJsCwDAZM=
 script:
