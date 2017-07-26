@@ -114,6 +114,30 @@
           <li>Otherwise, return true.
           </li>
         </ol>
+        <pre class="example" title="non-conforming PMIs">
+          const good = [
+            {
+              supportedMethods: "https://example.com/pay",
+            },
+            {
+              supportedMethods: "https://example.com/pay?version=1",
+            },
+            {
+              supportedMethods: "https://example.com/pay/version/1",
+            },
+          ];
+
+          const bad = [
+            {
+              // ❌ Uses http://, a username, and a password.
+              supportedMethods: "http://username:password@example.com/pay",
+            },
+            {
+              // ❌ Uses unknown URI scheme.
+              supportedMethods: "unknown://example.com/pay",
+            },
+          ];
+        </pre>
       </section>
       <section>
         <h2>
@@ -143,6 +167,28 @@
         <h2>
           Validity
         </h2>
+        <p>
+          The steps to <dfn>validate a standardized payment method
+          identifier</dfn> are given by the following algorithm. The algorithm
+          takes a <var>string</var> as input and returns true if the identifier
+          is valid:
+        </p>
+        <ol class="algorithm">
+          <li>Return true if <var>string</var> contains only [[!UNICODE]] code
+          points:
+            <ol>
+              <li>In the range U+0061-U+007A ("Latin Small Letter A" to "Latin
+              Small Letter Z")
+              </li>
+              <li>In the range U+0030-U+0039 ("Digit Zero" to "Digit Nine").
+              </li>
+              <li>Zero or more U+002D HYPHEN-MINUS (-).
+              </li>
+            </ol>
+          </li>
+          <li>Otherwise, return false.
+          </li>
+        </ol>
         <p class="note">
           When minting a new <a>standardized payment method identifier</a> for
           the purpose of standardization, be sure that it conforms to the
@@ -152,6 +198,35 @@
           User agents MUST NOT enforce validity or well-formedness of
           <a>standardized payment method identifiers</a>.
         </p>
+        <div class="note">
+          <p>
+            When used in an API, the following method identifiers are all
+            ignored by the user agent. Some user agents might inform developers
+            that identifiers are invalid to help them fix issues.
+          </p>
+          <pre class="example" title="Conforming and non-conforming PMIs">
+            const good = [
+              {
+                supportedMethods: "basic-card",
+              },
+            ];
+
+            const bad = [
+              {
+                // ❌ Contains Unicode character outside the valid ranges.
+                supportedMethods: "💳-card",
+              },
+              {
+                // ❌ Contains uppercase characters.
+                supportedMethods: "Basic-Card",
+              },
+              {
+                // ❌ Contains Unicode characters outside the valid ranges.
+                supportedMethods: "¡basic-*-card!",
+              },
+            ];
+          </pre>
+        </div>
       </section>
       <section>
         <h2>
