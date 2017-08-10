@@ -85,6 +85,28 @@
           <a>standardized payment method identifier</a>.
         </li>
       </ul>
+      <section>
+        <h3>
+          Validity
+        </h3>
+        <p>
+          The steps to <dfn>validate a payment method identifier</dfn> with a
+          string <var>pmi</var> are given by the following algorithm. It
+          returns either true or false.
+        </p>
+        <ol>
+          <li>Let <var>url</var> be the result of running the <a data-cite=
+          "!url##concept-basic-url-parser">basic URL parser</a> with
+          <var>pmi</var>.
+          </li>
+          <li>If <var>url</var> is failure, <a>validate a standardized payment
+          method identifier</a> with <var>pmi</var> and return the result.
+          </li>
+          <li>Otherwise, <a>validate a URL-based payment method identifier</a>
+          passing <var>url</var> and return the result.
+          </li>
+        </ol>
+      </section>
     </section>
     <section>
       <h2>
@@ -216,10 +238,6 @@
           When minting a new <a>standardized payment method identifier</a> for
           the purpose of standardization, be sure that it conforms to the
           following regular expression: <code>[a-z0-9-]+</code>.
-        </p>
-        <p>
-          User agents MUST NOT enforce validity or well-formedness of
-          <a>standardized payment method identifiers</a>.
         </p>
         <div class="note">
           <p>
