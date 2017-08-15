@@ -32,8 +32,10 @@
       license: "w3c-software-doc",
       previousMaturity: "FPWD",
       previousPublishDate: "2016-04-21",
-      specStatus: "ED",
-      testSuiteURI: "https://w3c-test.org/payment-method-id/",
+      specStatus: "CR",
+      // We can only indirectly test conformance, so we rely on certain tests
+      // in the Payment Request API.
+      testSuiteURI: "https://w3c-test.org/payment-request/",
       wg: "Web Payments Working Group",
       wgPatentURI: "https://www.w3.org/2004/01/pp-impl/83744/status",
       wgURI: "https://www.w3.org/Payments/WG/",
@@ -45,9 +47,10 @@
       <p>
         This specification defines payment method identifiers and how they are
         validated, and, where applicable, minted and formally registered with
-        the <a href="https://w3.org">W3C</a>. Other specifications (e.g.,
-        <a data-cite="payment-request">Payment Request</a>) make use of these
-        identifiers to facilitate monetary transactions on the web platform.
+        the <a href="https://w3.org">W3C</a>. Other specifications (e.g., the
+        <a data-cite="payment-request">Payment Request API</a>) make use of
+        these identifiers to facilitate monetary transactions on the web
+        platform.
       </p>
     </section>
     <section id='sotd'>
@@ -79,10 +82,9 @@
       </p>
       <ul>
         <li>
-          <a>URL-based payment method identifier</a>.
+          <a>URL-based payment method identifier</a>,
         </li>
-        <li>
-          <a>standardized payment method identifier</a>.
+        <li>or a <a>standardized payment method identifier</a>.
         </li>
       </ul>
       <section>
@@ -92,7 +94,7 @@
         <p>
           The steps to <dfn>validate a payment method identifier</dfn> with a
           string <var>pmi</var> are given by the following algorithm. It
-          returns either true or false.
+          returns true if the <var>pmi</var> is valid.
         </p>
         <ol>
           <li>Let <var>url</var> be the result of running the <a data-cite=
@@ -131,11 +133,10 @@
           Validation
         </h2>
         <p>
-          The steps to <dfn data-lt="validate|valid">validate a URL-based
-          payment method identifier</dfn> are given by the following algorithm.
-          The algorithm takes a <var>url</var> <a data-cite=
-          "!URL#concept-url">URL</a> as input and returns true if the URL is
-          valid:
+          The steps to <dfn>validate a URL-based payment method
+          identifier</dfn> are given by the following algorithm. The algorithm
+          takes a <a data-cite="!URL#concept-url">URL</a> <var>url</var> as
+          input and returns true if the URL is valid:
         </p>
         <ol class="algorithm">
           <li>If <var>url</var>'s <a data-cite=
@@ -149,8 +150,8 @@
           <li>Otherwise, return true.
           </li>
         </ol>
-        <pre class="example" title="non-conforming PMIs">
-          const good = [
+        <pre class="example" title="valid and invalid identifiers">
+          const valid = [
             {
               supportedMethods: "https://example.com/pay",
             },
@@ -162,7 +163,7 @@
             },
           ];
 
-          const bad = [
+          const invalid = [
             {
               // ❌ Uses http://, a username, and a password.
               supportedMethods: "http://username:password@example.com/pay",
@@ -178,7 +179,7 @@
         <h2>
           Comparison
         </h2>
-        <p>
+        <p data-tests="payment-request-ctor-pmi-handling.https.html">
           User agents MUST perform comparisons of <a>URL-based payment method
           identifiers</a> using <a data-cite=
           "!URL#concept-url-equals">equals</a>. [[!URL]]
@@ -202,7 +203,8 @@
       <p>
         A <dfn data-lt="standardized payment method identifiers">standardized
         payment method identifier</dfn> is a string that represents a
-        <a>standardized payment method</a>.
+        <a>standardized payment method</a> and is valid as per the steps to
+        <a>validate a standardized payment method identifier</a>.
       </p>
       <p>
         User agents MAY support zero or more <a>standardized payment method
@@ -245,17 +247,17 @@
             ignored by the user agent. Some user agents might inform developers
             that identifiers are invalid to help them fix issues.
           </p>
-          <pre class="example" title="Conforming and non-conforming PMIs">
-            const good = [
+          <pre class="example" title="Valid and invalid identifiers">
+            const valid = [
               {
                 supportedMethods: "basic-card",
               },
             ];
 
-            const bad = [
+            const invalid = [
               {
                 // ❌ Contains Unicode character outside the valid ranges.
-                supportedMethods: "💳-card",
+                supportedMethods: "basic-💳",
               },
               {
                 // ❌ Contains uppercase characters.
@@ -273,7 +275,7 @@
         <h2>
           Comparison
         </h2>
-        <p>
+        <p data-tests="payment-request-ctor-pmi-handling.https.html">
           For <a>standardized payment method identifiers</a>, user agents MUST
           compare strings in a <a data-cite=
           "!HTML#case-sensitive">case-sensitive</a> manner (code point for code
@@ -285,6 +287,18 @@
       <h3 id="registry">
         Registry of standardized payment methods
       </h3>
+      <aside class="note">
+        <p>
+          There is no need to register a <a>URL-based payment method
+          identifier</a>.
+        </p>
+        <p>
+          Organizations seeking to mint a new identifier for a payment method
+          are encouraged to <a href="https://www.w3.org/Consortium/join">join
+          the W3C</a> and follow the <a href=
+          "https://www.w3.org/Consortium/Process/">W3C process</a>.
+        </p>
+      </aside>
       <p>
         A <dfn>standardized payment method</dfn> is a payment method that has
         undergone standardization at the W3C, and is listed in this registry.
