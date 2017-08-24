@@ -78,7 +78,8 @@
         Payment method identifiers
       </h2>
       <p>
-        A <dfn>payment method identifier</dfn> is either a:
+        A <dfn data-lt="payment method identifiers">payment method
+        identifier</dfn> is either a:
       </p>
       <ul>
         <li>
@@ -91,6 +92,11 @@
         <h3>
           Validity
         </h3>
+        <p>
+          Specifications that rely on <a>payment method identifiers</a> MUST
+          specify their own rules for handling invalid payment method
+          identifiers.
+        </p>
         <p>
           The steps to <dfn>validate a payment method identifier</dfn> with a
           string <var>pmi</var> are given by the following algorithm. It
@@ -241,35 +247,28 @@
           the purpose of standardization, be sure that it conforms to the
           following regular expression: <code>[a-z0-9-]+</code>.
         </p>
-        <div class="note">
-          <p>
-            When used in an API, the following method identifiers are all
-            ignored by the user agent. Some user agents might inform developers
-            that identifiers are invalid to help them fix issues.
-          </p>
-          <pre class="example" title="Valid and invalid identifiers">
-            const valid = [
-              {
-                supportedMethods: "basic-card",
-              },
-            ];
+        <pre class="example" title="Valid and invalid identifiers">
+          const valid = [
+            {
+              supportedMethods: "basic-card",
+            },
+          ];
 
-            const invalid = [
-              {
-                // ❌ Contains Unicode character outside the valid ranges.
-                supportedMethods: "basic-💳",
-              },
-              {
-                // ❌ Contains uppercase characters.
-                supportedMethods: "Basic-Card",
-              },
-              {
-                // ❌ Contains Unicode characters outside the valid ranges.
-                supportedMethods: "¡basic-*-card!",
-              },
-            ];
-          </pre>
-        </div>
+          const invalid = [
+            {
+              // ❌ Contains Unicode character outside the valid ranges.
+              supportedMethods: "basic-💳",
+            },
+            {
+              // ❌ Contains uppercase characters.
+              supportedMethods: "Basic-Card",
+            },
+            {
+              // ❌ Contains Unicode characters outside the valid ranges.
+              supportedMethods: "¡basic-*-card!",
+            },
+          ];
+        </pre>
       </section>
       <section>
         <h2>
