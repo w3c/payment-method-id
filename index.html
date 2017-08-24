@@ -75,7 +75,7 @@
     </section>
     <section>
       <h2>
-        Payment method identifiers
+        Payment method identifiers (PMIs)
       </h2>
       <p>
         A <dfn data-lt="payment method identifiers">payment method
@@ -156,7 +156,7 @@
           <li>Otherwise, return true.
           </li>
         </ol>
-        <pre class="example" title="valid and invalid identifiers">
+        <pre class="example" title="valid and invalid URL-based PMIs">
           const valid = [
             {
               supportedMethods: "https://example.com/pay",
@@ -247,7 +247,7 @@
           the purpose of standardization, be sure that it conforms to the
           following regular expression: <code>[a-z0-9-]+</code>.
         </p>
-        <pre class="example" title="Valid and invalid identifiers">
+        <pre class="example" title="valid and invalid standardized PMIs">
           const valid = [
             {
               supportedMethods: "basic-card",
