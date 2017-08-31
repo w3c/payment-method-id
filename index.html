@@ -209,9 +209,17 @@
       <p>
         A <dfn data-lt="standardized payment method identifiers">standardized
         payment method identifier</dfn> is a string that represents a
-        <a>standardized payment method</a> and is valid as per the steps to
-        <a>validate a standardized payment method identifier</a>.
+        <a>standardized payment method</a>.
       </p>
+      <p>
+        The <dfn>syntax of a standardized payment method identifier</dfn> is
+        given by the following [[!ABNF]]:
+      </p>
+      <pre class="ABFN">
+        stdpmi = part *( "-" part )
+        part = 1loweralpha *( DIGIT / loweralpha )
+        loweralpha =  %x61-7A
+      </pre>
       <p>
         User agents MAY support zero or more <a>standardized payment method
         identifiers</a> listed in section <a href="#registry"></a>.
@@ -227,48 +235,39 @@
           is valid:
         </p>
         <ol class="algorithm">
-          <li>Return true if <var>string</var> contains only [[!UNICODE]] code
-          points:
-            <ol>
-              <li>In the range U+0061-U+007A ("Latin Small Letter A" to "Latin
-              Small Letter Z")
-              </li>
-              <li>In the range U+0030-U+0039 ("Digit Zero" to "Digit Nine").
-              </li>
-              <li>Zero or more U+002D HYPHEN-MINUS (-).
-              </li>
-            </ol>
-          </li>
-          <li>Otherwise, return false.
+          <li>Return true if <var>string</var> conforms to the <a>syntax of a
+          standardized payment method identifier</a>. Otherwise, return false.
           </li>
         </ol>
-        <p class="note">
-          When minting a new <a>standardized payment method identifier</a> for
-          the purpose of standardization, be sure that it conforms to the
-          following regular expression: <code>[a-z0-9-]+</code>.
-        </p>
-        <pre class="example" title="valid and invalid standardized PMIs">
-          const valid = [
-            {
-              supportedMethods: "basic-card",
-            },
-          ];
+        <aside class="note">
+          <p>
+            When used in an API, the following method identifiers are all
+            ignored by the user agent. Some user agents might inform developers
+            that identifiers are invalid to help them fix issues.
+          </p>
+          <pre class="example" title="Valid and invalid identifiers">
+            const valid = [
+              {
+                supportedMethods: "basic-card",
+              },
+            ];
 
-          const invalid = [
-            {
-              // ❌ Contains Unicode character outside the valid ranges.
-              supportedMethods: "basic-💳",
-            },
-            {
-              // ❌ Contains uppercase characters.
-              supportedMethods: "Basic-Card",
-            },
-            {
-              // ❌ Contains Unicode characters outside the valid ranges.
-              supportedMethods: "¡basic-*-card!",
-            },
-          ];
-        </pre>
+            const invalid = [
+              {
+                // ❌ Contains Unicode character outside the valid ranges.
+                supportedMethods: "basic-💳",
+              },
+              {
+                // ❌ Contains uppercase characters.
+                supportedMethods: "Basic-Card",
+              },
+              {
+                // ❌ Contains Unicode characters outside the valid ranges.
+                supportedMethods: "¡basic-*-card!",
+              },
+            ];
+          </pre>
+        </aside>
       </section>
       <section>
         <h2>
