@@ -9,33 +9,45 @@
     class='remove'></script>
     <script class='remove'>
     var respecConfig = {
-      editors: [{
-        name: "Adrian Bateman",
-        company: "Microsoft Corporation",
-        w3cid: 42763,
-      }, {
-        name: "Zach Koch",
-        company: "Google",
-        w3cid: 76588,
-      }, {
-        name: "Roy McElmurry",
-        company: "Facebook",
-        w3cid: 88345,
-      }, {
-        name: "Marcos Cáceres",
-        company: "Mozilla",
-        w3cid: 39125,
-      }],
+      formerEditors: [
+        {
+          name: "Adrian Bateman",
+          company: "Microsoft Corporation",
+          w3cid: 42763,
+        },
+      ],
+      editors: [
+        {
+          name: "Marcos Cáceres",
+          company: "Mozilla",
+          w3cid: 39125,
+        },
+        {
+          name: "Domenic Denicola",
+          company: "Google",
+          w3cid: 52873,
+        },
+        {
+          name: "Zach Koch",
+          company: "Google",
+          w3cid: 76588,
+        },
+        {
+          name: "Roy McElmurry",
+          company: "Facebook",
+          w3cid: 88345,
+        },
+      ],
       crEnd: "2017-10-31",
       github: "https://github.com/w3c/payment-method-id",
-      implementationReportURI: "https://w3c.github.io/payment-method-id/reports/implementation.html",
+      implementationReportURI: "https://w3c.github.io/test-results/payment-method-id/all.html",
       license: "w3c-software-doc",
       previousMaturity: "FPWD",
       previousPublishDate: "2016-04-21",
       specStatus: "ED",
       // We can only indirectly test conformance, so we rely on certain tests
       // in the Payment Request API.
-      testSuiteURI: "https://w3c-test.org/payment-request/",
+      testSuiteURI: "https://w3c-test.org/payment-method-id/",
       wg: "Web Payments Working Group",
       wgPatentURI: "https://www.w3.org/2004/01/pp-impl/83744/status",
       wgURI: "https://www.w3.org/Payments/WG/",
@@ -104,7 +116,7 @@
         </p>
         <ol>
           <li>Let <var>url</var> be the result of running the <a data-cite=
-          "!URL#concept-basic-url-parser">basic URL parser</a> with
+          "URL#concept-basic-url-parser">basic URL parser</a> with
           <var>pmi</var>.
           </li>
           <li>If <var>url</var> is failure, <a>validate a standardized payment
@@ -122,9 +134,9 @@
       </h2>
       <p>
         A <dfn data-lt="URL-based payment method identifiers">URL-based payment
-        method identifier</dfn> is a <dfn data-cite=
-        "!URL#concept-url">URL</dfn> that is valid as per the steps to
-        <a>validate a URL-based payment method identifier</a>.
+        method identifier</dfn> is a <dfn data-cite="URL#concept-url">URL</dfn>
+        that is valid as per the steps to <a>validate a URL-based payment
+        method identifier</a>.
       </p>
       <div class="note">
         <p>
@@ -141,16 +153,16 @@
         <p>
           The steps to <dfn>validate a URL-based payment method
           identifier</dfn> are given by the following algorithm. The algorithm
-          takes a <a data-cite="!URL#concept-url">URL</a> <var>url</var> as
+          takes a <a data-cite="URL#concept-url">URL</a> <var>url</var> as
           input and returns true if the URL is valid:
         </p>
         <ol class="algorithm">
           <li>If <var>url</var>'s <a data-cite=
-          "!URL#concept-url-scheme">scheme</a> is not "https", return false.
+          "URL#concept-url-scheme">scheme</a> is not "https", return false.
           </li>
           <li>If <var>url</var>'s <a data-cite=
-          "!URL#concept-url-username">username</a> or <a data-cite=
-          "!URL#concept-url-password">password</a> is not the empty string,
+          "URL#concept-url-username">username</a> or <a data-cite=
+          "URL#concept-url-password">password</a> is not the empty string,
           return false.
           </li>
           <li>Otherwise, return true.
@@ -188,7 +200,7 @@
         <p data-tests="payment-request-ctor-pmi-handling.https.html">
           User agents MUST perform comparisons of <a>URL-based payment method
           identifiers</a> using <a data-cite=
-          "!URL#concept-url-equals">equals</a>. [[!URL]]
+          "URL#concept-url-equals">equals</a>. [[URL]]
         </p>
       </section>
       <section>
@@ -197,7 +209,7 @@
         </h2>
         <p>
           It is OPTIONAL for user agents to <a data-cite=
-          "!WHATWG-FETCH#concept-fetch">fetch</a> a <a>URL-based payment method
+          "WHATWG-FETCH#concept-fetch">fetch</a> a <a>URL-based payment method
           identifier</a>.
         </p>
       </section>
@@ -213,7 +225,7 @@
       </p>
       <p>
         The <dfn>syntax of a standardized payment method identifier</dfn> is
-        given by the following [[!ABNF]]:
+        given by the following [[ABNF]]:
       </p>
       <pre class="ABFN">
         stdpmi = part *( "-" part )
@@ -276,7 +288,7 @@
         <p data-tests="payment-request-ctor-pmi-handling.https.html">
           For <a>standardized payment method identifiers</a>, user agents MUST
           compare strings in a <a data-cite=
-          "!HTML#case-sensitive">case-sensitive</a> manner (code point for code
+          "HTML#case-sensitive">case-sensitive</a> manner (code point for code
           point).
         </p>
       </section>
@@ -310,10 +322,26 @@
           "<code>basic-card</code>"
         </dt>
         <dd>
-          The <cite><a data-cite="payment-method-basic-card">Basic Card
-          Payment</a></cite> specification.
+          The <cite><a data-cite="payment-method-basic-card">Payment Method:
+          Basic Card</a></cite> specification.
         </dd>
       </dl>
+    </section>
+    <section class="informative">
+      <h2>
+        URL-based PMI and third-party payment handlers
+      </h2>
+      <p>
+        Developers wanting to use a URL-based payment method identifier for a
+        third party payment handler are encouraged to read the <a data-cite=
+        "payment-method-manifest">Payment Method Manifest</a> specification and
+        the <a href=
+        "https://github.com/w3c/payment-request-info/wiki/PaymentMethodPractice">
+        Payment Method Best Practice</a> wiki page. Together, these documents
+        describe how to manage the ecosystem of authorized payment handlers for
+        a payment method, including just-in-time payment handler installation
+        by the browser.
+      </p>
     </section>
     <section>
       <h2>
