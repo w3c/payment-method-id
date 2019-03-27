@@ -1,1 +1,1 @@
-index.html?specStatus=CR;shortName=payment-method-id respec
+index.html?specStatus=CR&shortName=payment-method-id respec
