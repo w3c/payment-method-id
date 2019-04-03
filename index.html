@@ -51,6 +51,7 @@
       wg: "Web Payments Working Group",
       wgPatentURI: "https://www.w3.org/2004/01/pp-impl/83744/status",
       wgURI: "https://www.w3.org/Payments/WG/",
+      xref: ["URL", "HTML"]
     };
     </script>
   </head>
@@ -60,18 +61,17 @@
         This specification defines payment method identifiers and how they are
         validated, and, where applicable, minted and formally registered with
         the <a href="https://www.w3.org/">W3C</a>. Other specifications (e.g.,
-        the <a data-cite="payment-request">Payment Request API</a>) make use of
-        these identifiers to facilitate monetary transactions on the web
-        platform.
+        the [[[payment-request]]]) make use of these identifiers to facilitate
+        monetary transactions on the web platform.
       </p>
     </section>
     <section id='sotd'>
       <p>
-        The working group will demonstrate implementation experience by
-        producing an <a href=
+        The working group demonstrates implementation experience by producing
+        an <a href=
         "https://w3c.github.io/test-results/payment-method-id/all.html">implementation
-        report</a>. The report will show two or more independent
-        implementations passing each mandatory test in the <a href=
+        report</a>. The report shows two or more independent implementations
+        passing each mandatory test in the <a href=
         "https://w3c-test.org/payment-method-id/">test suite</a> (i.e., each
         test corresponds to a MUST requirement of the specification).
       </p>
@@ -79,19 +79,14 @@
         There has been no change in dependencies on other workings groups
         during the development of this specification.
       </p>
-      <p class="note">
-        Please file any issues with this specification in the <a href=
-        "https://github.com/w3c/payment-method-id/issues">payment method
-        identifiers repository</a> on GitHub.
-      </p>
     </section>
     <section>
       <h2>
         Payment method identifiers (PMIs)
       </h2>
       <p>
-        A <dfn data-lt="payment method identifiers">payment method
-        identifier</dfn> is either a:
+        A <dfn data-abbr="PMI" data-lt="payment method identifiers">payment
+        method identifier</dfn> is either a:
       </p>
       <ul>
         <li>
@@ -111,19 +106,18 @@
         </p>
         <p>
           The steps to <dfn>validate a payment method identifier</dfn> with a
-          string <var>pmi</var> are given by the following algorithm. It
-          returns true if the <var>pmi</var> is valid.
+          string |pmi:string| are given by the following algorithm. It returns
+          true if the |pmi| is valid.
         </p>
-        <ol>
-          <li>Let <var>url</var> be the result of running the <a data-cite=
-          "URL#concept-basic-url-parser">basic URL parser</a> with
-          <var>pmi</var>.
+        <ol class="algorithm">
+          <li>Let |url:URL| be the result of running the <a>basic URL
+          parser</a> with |pmi|.
           </li>
-          <li>If <var>url</var> is failure, <a>validate a standardized payment
-          method identifier</a> with <var>pmi</var> and return the result.
+          <li>If |url| is failure, <a>validate a standardized payment method
+          identifier</a> with |pmi| and return the result.
           </li>
           <li>Otherwise, <a>validate a URL-based payment method identifier</a>
-          passing <var>url</var> and return the result.
+          passing |url| and return the result.
           </li>
         </ol>
       </section>
@@ -133,10 +127,9 @@
         URL-based payment method identifiers
       </h2>
       <p>
-        A <dfn data-lt="URL-based payment method identifiers">URL-based payment
-        method identifier</dfn> is a <dfn data-cite="URL#concept-url">URL</dfn>
-        that is valid as per the steps to <a>validate a URL-based payment
-        method identifier</a>.
+        A <dfn>URL-based payment method identifier</dfn> is a <a>URL</a> that
+        is valid as per the steps to <a>validate a URL-based payment method
+        identifier</a>.
       </p>
       <div class="note">
         <p>
@@ -153,22 +146,19 @@
         <p>
           The steps to <dfn>validate a URL-based payment method
           identifier</dfn> are given by the following algorithm. The algorithm
-          takes a <a data-cite="URL#concept-url">URL</a> <var>url</var> as
-          input and returns true if the URL is valid:
+          takes a <a>URL</a> |url:URL| as input and returns true if the URL is
+          valid:
         </p>
-        <ol class="algorithm">
-          <li>If <var>url</var>'s <a data-cite=
-          "URL#concept-url-scheme">scheme</a> is not "https", return false.
+        <ol class="algorithm" data-cite="URL">
+          <li>If |url|'s <a>scheme</a> is not "https", return false.
           </li>
-          <li>If <var>url</var>'s <a data-cite=
-          "URL#concept-url-username">username</a> or <a data-cite=
-          "URL#concept-url-password">password</a> is not the empty string,
-          return false.
+          <li>If |url|'s <a>username</a> or <a>password</a> is not the empty
+          string, return false.
           </li>
           <li>Otherwise, return true.
           </li>
         </ol>
-        <pre class="example" title="valid and invalid URL-based PMIs">
+        <pre class="example js" title="valid and invalid URL-based PMIs">
           const valid = [
             {
               supportedMethods: "https://example.com/pay",
@@ -199,8 +189,8 @@
         </h2>
         <p data-tests="payment-request-ctor-pmi-handling.https.html">
           User agents MUST perform comparisons of <a>URL-based payment method
-          identifiers</a> using <a data-cite=
-          "URL#concept-url-equals">equals</a>. [[URL]]
+          identifiers</a> using [[URL]]'s <a data-cite=
+          "URL#concept-url-equals">equal</a>.
         </p>
       </section>
       <section>
@@ -209,7 +199,7 @@
         </h2>
         <p>
           It is OPTIONAL for user agents to <a data-cite=
-          "WHATWG-FETCH#concept-fetch">fetch</a> a <a>URL-based payment method
+          "FETCH#concept-fetch">fetch</a> a <a>URL-based payment method
           identifier</a>.
         </p>
       </section>
@@ -219,9 +209,8 @@
         Standardized payment method identifiers
       </h2>
       <p>
-        A <dfn data-lt="standardized payment method identifiers">standardized
-        payment method identifier</dfn> is a string that represents a
-        <a>standardized payment method</a>.
+        A <dfn>standardized payment method identifier</dfn> is a string that
+        represents a <a>standardized payment method</a>.
       </p>
       <p>
         The <dfn>syntax of a standardized payment method identifier</dfn> is
@@ -243,11 +232,11 @@
         <p>
           The steps to <dfn>validate a standardized payment method
           identifier</dfn> are given by the following algorithm. The algorithm
-          takes a <var>string</var> as input and returns true if the identifier
+          takes a |string:string| as input and returns true if the identifier
           is valid:
         </p>
         <ol class="algorithm">
-          <li>Return true if <var>string</var> conforms to the <a>syntax of a
+          <li>Return true if |string| conforms to the <a>syntax of a
           standardized payment method identifier</a>. Otherwise, return false.
           </li>
         </ol>
@@ -293,8 +282,8 @@
         </p>
       </section>
     </section>
-    <section class="informative">
-      <h3 id="registry">
+    <section class="informative" id="registry">
+      <h3>
         Registry of standardized payment methods
       </h3>
       <aside class="note">
@@ -322,8 +311,7 @@
           "<code>basic-card</code>"
         </dt>
         <dd>
-          The <cite><a data-cite="payment-method-basic-card">Payment Method:
-          Basic Card</a></cite> specification.
+          The [[[payment-method-basic-card]]] specification.
         </dd>
       </dl>
     </section>
@@ -333,9 +321,8 @@
       </h2>
       <p>
         Developers wanting to use a URL-based payment method identifier for a
-        third party payment handler are encouraged to read the <a data-cite=
-        "payment-method-manifest">Payment Method Manifest</a> specification and
-        the <a href=
+        third party payment handler are encouraged to read the
+        [[[payment-method-manifest]]] specification and the <a href=
         "https://github.com/w3c/payment-request-info/wiki/PaymentMethodPractice">
         Payment Method Best Practice</a> wiki page. Together, these documents
         describe how to manage the ecosystem of authorized payment handlers for
