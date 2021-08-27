@@ -49,7 +49,7 @@
       // in the Payment Request API.
       testSuiteURI: "https://wpt.live/payment-method-id/",
       group: "payments",
-      xref: ["URL", "HTML"]
+      xref: ["URL", "HTML", "FETCH", "PAYMENT-REQUEST"]
     };
     </script>
   </head>
@@ -84,15 +84,8 @@
       </h2>
       <p>
         A <dfn data-abbr="PMI" data-export="">payment method identifier</dfn>
-        is either a:
+        is a [=URLs=] that identifies a [=payment handler=].
       </p>
-      <ul>
-        <li>
-          <a>URL-based payment method identifier</a>,
-        </li>
-        <li>or a <a>standardized payment method identifier</a>.
-        </li>
-      </ul>
       <section>
         <h3>
           Validity
@@ -111,11 +104,9 @@
           <li>Let |url:URL| be the result of running the <a>basic URL
           parser</a> with |pmi|.
           </li>
-          <li>If |url| is failure, <a>validate a standardized payment method
-          identifier</a> with |pmi| and return the result.
-          </li>
-          <li>Otherwise, <a>validate a URL-based payment method identifier</a>
-          passing |url| and return the result.
+          <li>
+            <a>Validate a URL-based payment method identifier</a> passing |url|
+            and return the result.
           </li>
         </ol>
       </section>
@@ -187,8 +178,7 @@
         </h2>
         <p data-tests="payment-request-ctor-pmi-handling.https.html">
           User agents MUST perform comparisons of <a>URL-based payment method
-          identifiers</a> using [[URL]]'s <a data-cite=
-          "URL#concept-url-equals">equal</a>.
+          identifiers</a> using [[URL]]'s [=URL/equal=].
         </p>
       </section>
       <section>
@@ -196,119 +186,10 @@
           Fetching (dereferencing)
         </h2>
         <p>
-          It is OPTIONAL for user agents to <a data-cite=
-          "FETCH#concept-fetch">fetch</a> a <a>URL-based payment method
-          identifier</a>.
+          It is OPTIONAL for user agents to [=fetch=] a <a>URL-based payment
+          method identifier</a>.
         </p>
       </section>
-    </section>
-    <section>
-      <h2>
-        Standardized payment method identifiers
-      </h2>
-      <p>
-        A <dfn data-export="">standardized payment method identifier</dfn> is a
-        string that represents a <a>standardized payment method</a>.
-      </p>
-      <p>
-        The <dfn>syntax of a standardized payment method identifier</dfn> is
-        given by the following [[ABNF]]:
-      </p>
-      <pre class="ABFN">
-        stdpmi = part *( "-" part )
-        part = 1loweralpha *( DIGIT / loweralpha )
-        loweralpha =  %x61-7A
-      </pre>
-      <p>
-        User agents MAY support zero or more <a>standardized payment method
-        identifiers</a> listed in section [[[#registry]]].
-      </p>
-      <section>
-        <h2>
-          Validity
-        </h2>
-        <p>
-          The steps to <dfn>validate a standardized payment method
-          identifier</dfn> are given by the following algorithm. The algorithm
-          takes a |string:string| as input and returns true if the identifier
-          is valid:
-        </p>
-        <ol class="algorithm">
-          <li>Return true if |string| conforms to the <a>syntax of a
-          standardized payment method identifier</a>. Otherwise, return false.
-          </li>
-        </ol>
-        <aside class="note">
-          <p>
-            When used in an API, the following method identifiers are all
-            ignored by the user agent. Some user agents might inform developers
-            that identifiers are invalid to help them fix issues.
-          </p>
-          <p>
-            The example below refers to the "basic-card" standardized payment
-            method identifier. Although the Web Payments Working Group has
-            discontinued that work, the identifier serves here as an example.
-          </p>
-          <pre class="example" title="Valid and invalid identifiers">
-            const valid = [
-              {
-                supportedMethods: "basic-card",
-              },
-            ];
-
-            const invalid = [
-              {
-                // ❌ Contains Unicode character outside the valid ranges.
-                supportedMethods: "basic-💳",
-              },
-              {
-                // ❌ Contains uppercase characters.
-                supportedMethods: "Basic-Card",
-              },
-              {
-                // ❌ Contains Unicode characters outside the valid ranges.
-                supportedMethods: "¡basic-*-card!",
-              },
-            ];
-          </pre>
-        </aside>
-      </section>
-      <section>
-        <h2>
-          Comparison
-        </h2>
-        <p data-tests="payment-request-ctor-pmi-handling.https.html">
-          For <a>standardized payment method identifiers</a>, user agents MUST
-          compare strings in a <a data-cite=
-          "HTML#case-sensitive">case-sensitive</a> manner (code point for code
-          point).
-        </p>
-      </section>
-    </section>
-    <section class="informative" id="registry">
-      <h3>
-        Registry of standardized payment methods
-      </h3>
-      <aside class="note">
-        <p>
-          There is no need to register a <a>URL-based payment method
-          identifier</a>.
-        </p>
-        <p>
-          Organizations seeking to mint a new identifier for a payment method
-          are encouraged to <a href="https://www.w3.org/Consortium/join">join
-          the W3C</a> and follow the <a href=
-          "https://www.w3.org/Consortium/Process/">W3C process</a>.
-        </p>
-      </aside>
-      <p>
-        A <dfn>standardized payment method</dfn> is a payment method that has
-        undergone standardization at the W3C, and is listed in this registry.
-      </p>
-      <p>
-        At this time there are no <a>standardized payment method
-        identifiers</a>.
-      </p>
     </section>
     <section class="informative">
       <h2>
