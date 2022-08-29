@@ -52,7 +52,7 @@
       // We can only indirectly test conformance, so we rely on certain tests
       // in the Payment Request API.
       testSuiteURI: "https://wpt.live/payment-method-id/",
-      xref: ["URL", "HTML"]
+      xref: ["URL", "HTML", "FETCH", "INFRA"]
     };
     </script>
   </head>
@@ -73,8 +73,8 @@
         "https://w3c.github.io/test-results/payment-method-id/all.html">implementation
         report</a>. The report shows two or more independent implementations
         passing each mandatory test in the <a href=
-        "https://wpt.live/payment-method-id/">test suite</a> (i.e., each
-        test corresponds to a MUST requirement of the specification).
+        "https://wpt.live/payment-method-id/">test suite</a> (i.e., each test
+        corresponds to a MUST requirement of the specification).
       </p>
       <p>
         There has been no change in dependencies on other workings groups
@@ -90,10 +90,9 @@
         is either a:
       </p>
       <ul>
-        <li>
-          <a>URL-based payment method identifier</a>,
+        <li>[=URL-based payment method identifier=],
         </li>
-        <li>or a <a>standardized payment method identifier</a>.
+        <li>or a [=standardized payment method identifier=].
         </li>
       </ul>
       <section>
@@ -101,7 +100,7 @@
           Validity
         </h3>
         <p>
-          Specifications that rely on <a>payment method identifiers</a> MUST
+          Specifications that rely on [=payment method identifiers=] MUST
           specify their own rules for handling invalid payment method
           identifiers.
         </p>
@@ -111,13 +110,13 @@
           following algorithm. It returns true if the |pmi| is valid.
         </p>
         <ol class="algorithm">
-          <li>Let |url:URL| be the result of running the <a>basic URL
-          parser</a> with |pmi|.
+          <li>Let |url:URL| be the result of running the [=basic URL parser=]
+          with |pmi|.
           </li>
-          <li>If |url| is failure, <a>validate a standardized payment method
-          identifier</a> with |pmi| and return the result.
+          <li>If |url| is failure, [=validate a standardized payment method
+          identifier=] with |pmi| and return the result.
           </li>
-          <li>Otherwise, <a>validate a URL-based payment method identifier</a>
+          <li>Otherwise, [=validate a URL-based payment method identifier=]
           passing |url| and return the result.
           </li>
         </ol>
@@ -129,8 +128,8 @@
       </h2>
       <p>
         A <dfn data-export="">URL-based payment method identifier</dfn> is a
-        <a>URL</a> that is valid as per the steps to <a>validate a URL-based
-        payment method identifier</a>.
+        [=URL=] that is valid as per the steps to [=validate a URL-based
+        payment method identifier=].
       </p>
       <div class="note">
         <p>
@@ -147,10 +146,10 @@
         <p>
           The steps to <dfn data-export="">validate a URL-based payment method
           identifier</dfn> are given by the following algorithm. The algorithm
-          takes a <a>URL</a> |url:URL| as input and returns true if the URL is
+          takes a [=URL=] |url:URL| as input and returns true if the URL is
           valid:
         </p>
-        <ol class="algorithm" data-cite="URL">
+        <ol class="algorithm">
           <li>If |url|'s [=url/scheme=] is not "https", return false.
           </li>
           <li>If |url|'s [=url/username=] or [=url/password=] is not the empty
@@ -188,10 +187,9 @@
         <h2>
           Comparison
         </h2>
-        <p data-tests="payment-request-ctor-pmi-handling.https.html">
-          User agents MUST perform comparisons of <a>URL-based payment method
-          identifiers</a> using [[URL]]'s <a data-cite=
-          "URL#concept-url-equals">equal</a>.
+        <p data-tests="payment-request-ctor-pmi-handling.https.sub.html">
+          User agents MUST perform comparisons of [=URL-based payment method
+          identifiers=] using [[URL]]'s [=URL/equal=].
         </p>
       </section>
       <section>
@@ -199,9 +197,8 @@
           Fetching (dereferencing)
         </h2>
         <p>
-          It is OPTIONAL for user agents to <a data-cite=
-          "FETCH#concept-fetch">fetch</a> a <a>URL-based payment method
-          identifier</a>.
+          It is OPTIONAL for user agents to [=fetch=] a [=URL-based payment
+          method identifier=].
         </p>
       </section>
     </section>
@@ -211,7 +208,7 @@
       </h2>
       <p>
         A <dfn data-export="">standardized payment method identifier</dfn> is a
-        string that represents a <a>standardized payment method</a>.
+        string that represents a [=standardized payment method=].
       </p>
       <p>
         The <dfn>syntax of a standardized payment method identifier</dfn> is
@@ -223,8 +220,8 @@
         loweralpha =  %x61-7A
       </pre>
       <p>
-        User agents MAY support zero or more <a>standardized payment method
-        identifiers</a> listed in section [[[#registry]]].
+        User agents MAY support zero or more [=standardized payment method
+        identifiers=] listed in section [[[#registry]]].
       </p>
       <section>
         <h2>
@@ -237,8 +234,8 @@
           is valid:
         </p>
         <ol class="algorithm">
-          <li>Return true if |string| conforms to the <a>syntax of a
-          standardized payment method identifier</a>. Otherwise, return false.
+          <li>Return true if |string| conforms to the [=syntax of a
+          standardized payment method identifier=]. Otherwise, return false.
           </li>
         </ol>
         <aside class="note">
@@ -280,11 +277,9 @@
         <h2>
           Comparison
         </h2>
-        <p data-tests="payment-request-ctor-pmi-handling.https.html">
-          For <a>standardized payment method identifiers</a>, user agents MUST
-          compare strings in a <a data-cite=
-          "HTML#case-sensitive">case-sensitive</a> manner (code point for code
-          point).
+        <p data-tests="payment-request-ctor-pmi-handling.https.sub.html">
+          For [=standardized payment method identifiers=], user agents MUST
+          perform string comparisons using [=string/is=].
         </p>
       </section>
     </section>
@@ -294,8 +289,8 @@
       </h3>
       <aside class="note">
         <p>
-          There is no need to register a <a>URL-based payment method
-          identifier</a>.
+          There is no need to register a [=URL-based payment method
+          identifier=].
         </p>
         <p>
           Organizations seeking to mint a new identifier for a payment method
@@ -309,8 +304,7 @@
         undergone standardization at the W3C, and is listed in this registry.
       </p>
       <p>
-        At this time there are no <a>standardized payment method
-        identifiers</a>.
+        At this time there are no [=standardized payment method identifiers=].
       </p>
     </section>
     <section class="informative">
